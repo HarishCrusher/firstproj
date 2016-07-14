@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+
+void printScreen(char* buf)
+{
+	printf("\033[30;42m%-10s\033[0m",buf);
+}
+
+void printState(char* buf)
+{
+	printf("\033[30;43m%-10s\033[0m",buf);
+}
+
+void printNumber(char* buf)
+{
+	printf("\033[30;46m%-10s\033[0m",buf);
+}
+
+void printUndefined(char* buf)
+{
+	printf("\033[37;41m%-10s\033[0m",buf);
+}
+
+void printBranch(int n)
+{
+	int i;
+//	printf("\t");
+	for(i=n;i<8;i++)
+	{
+		printf("\t");
+	}
+	printf("   |");
+	for(i=0;i<n;i++)
+	{
+		printf("---------------");
+		printf((i+1==n/2)?"^":"|");
+	}
+	printf("\n");
+	fflush(stdout);
+}
+
+void printChildren(char a[][50],int n)
+{
+	int i;
+	printBranch(n);
+//	printf("\n");
+	for(i=n;i<8;i++)
+	{
+		printf("\t");
+	}
+	
+	i=0;
+	for(i=0;i<n;i++)
+	{
+		if(i%4 ==0)
+			printScreen(a[i]);
+		else if(i%4 ==1)
+			printState(a[i]);
+		else if(i%4 ==2)
+			printNumber(a[i]);
+		else if(i%4 ==3)
+			printUndefined(a[i]);
+		printf("\t");
+		printf((i+1==n/2)?"\t":"");
+	}
+	printf("\n\n");
+}
+
+void printParent(char* buf)
+{
+	printf("\t\t\t\t\t\t\t\t");
+	printf("\033[37;44m%-10s\033[0m\n", buf);
+	fflush(stdout);
+}
+
+int main()
+{
+	char a[][50] = {"hellowre","rwetqtr","On_us_good_fit_state","wertwwet","etwrywryw","rtwertet","wretwetwet","wtwretwt"};
+	char b[][50] = {"On_us_good_fit_state","On_us_good_fit_state","On_us_good_fit_state","On_us_good_fit_state","On_us_good_fit_state","On_fit_state","On_us_good_fit_state","On_us_good_fit_state"};
+	printParent("Parent");
+	printChildren(a, 7);
+	printParent("Parent");
+	printChildren(b, 8);
+	printf("\n\n");
+	printParent("Parent");
+	printChildren(a, 4);
+	printf("\n\n");
+	printParent("Parent");
+	printChildren(a, 2);
+}
