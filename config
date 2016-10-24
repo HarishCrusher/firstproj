@@ -1,0 +1,363 @@
+<device name="NCR" emulation="NDC">
+	<state name="A" description="Card Read State" paramcount="8">
+		<param number="1" desc="Screen that prompts the cardholder to enter the card" type="SCREEN"></param>
+		<param number="2" desc="Good read next state number.State after good read or if fit on card is matches entry in fit table" type="STATE"></param>
+		<param number="3" desc="Error or Misread screen number. Display this screen if read condition 1,2 and 3 are not satisfied." type="SCREEN"></param>
+		<param number="4" desc="Read Condition 1. Specifies which track or chip data will be read. If satisfied good read state is used." type="NUMBER">
+			<value desc="Read Track 3 only">001</value>
+			<value desc="Read Track 2 only">002</value>
+			<value desc="Read Track 3 and Track 2">003</value>
+			<value desc="Read Track 1 only">004</value>
+			<value desc="Read Track 1 and Track 3">005</value>
+			<value desc="Read Track 1 and Track 2">006</value>
+			<value desc="Read Track 1, Track 2 and Track 3">007</value>
+			<value desc="Read smart data. Chip connect">008</value>
+		</param>
+		<param number="5" desc="Read Condition 2. Specifies which track or chip data will be read. Is checked when read condition 1 is not satisfied. If satisfied, goes to good read next state." type="NUMBER">
+			<value desc="Read Track 3 only">001</value>
+			<value desc="Read Track 2 only">002</value>
+			<value desc="Read Track 3 and Track 2">003</value>
+			<value desc="Read Track 1 only">004</value>
+			<value desc="Read Track 1 and Track 3">005</value>
+			<value desc="Read Track 1 and Track 2">006</value>
+			<value desc="Read Track 1, Track 2 and Track 3">007</value>
+			<value desc="Read smart data. Chip connect">008</value>
+			<value desc="Null">NULL</value>
+		</param>
+		<param number="6" desc="Read Condition 3. Specifies which track or chip data will be read. Is checked when read condition 1 and 2 are not satisfied. If satisfied, goes to good read next state." type="NUMBER">
+			<value desc="Read Track 3 only">001</value>
+			<value desc="Read Track 2 only">002</value>
+			<value desc="Read Track 3 and Track 2">003</value>
+			<value desc="Read Track 1 only">004</value>
+			<value desc="Read Track 1 and Track 3">005</value>
+			<value desc="Read Track 1 and Track 2">006</value>
+			<value desc="Read Track 1, Track 2 and Track 3">007</value>
+			<value desc="Read smart data. Chip connect">008</value>
+			<value desc="Null">NULL</value>
+		</param>
+		<param number="7" desc="Card return flag. Specifies when the card should be returned." type="NUMBER">
+			<value desc="eject card immediately">000</value>
+			<value desc="return as specified by reply command message">001</value>
+		</param>
+		<param number="8" desc="No FIT match next state. Fit on card does not match fit entries. Range 000-254 and 256-999" type="STATE"></param>
+	</state>
+	<state name="B" description="PIN entry state." paramcount="8">
+		<param number="1" desc="Display screen that prompts the cardholder to enter the PIN the first time. This screen should place the cursor where the pin is placed. X is displayed." type="SCREEN"></param>
+		<param number="2" desc="Timeout next state number." type="STATE"></param>
+		<param number="3" desc="Cancel next state number. Used when user presses the cancel key." type="STATE"></param>
+		<param number="4" desc="Local PIN check good pin. Used when user enters right pin. **Local Only**" type="STATE"></param>
+		<param number="5" desc="Local PIN check max bad pin. This state is normally a close state." type="STATE"></param>
+		<param number="6" desc="Re-enter pin screen." type="SCREEN"></param>
+		<param number="7" desc="Remote PIN check next state number. Used when local pin check is not performed." type="STATE"></param>
+		<param number="8" desc="Local PIN check max pin tries." type="NUMBER"></param>
+	</state>
+	<state name="C" description="Envelope Dispenser State" paramcount="8">
+		<param number="1" desc="Next state number" type="STATE">
+		<param number="2" desc="Reserved" type="NUMBER">000</param>
+		<param number="3" desc="Reserved" type="NUMBER">000</param>
+		<param number="4" desc="Reserved" type="NUMBER">000</param>
+		<param number="5" desc="Reserved" type="NUMBER">000</param>
+		<param number="6" desc="Reserved" type="NUMBER">000</param>
+		<param number="7" desc="Reserved" type="NUMBER">000</param>
+		<param number="8" desc="Reserved" type="NUMBER">000</param>
+	</state>
+	<state name="D" description="Preset Operation code buffer state" paramcount="8">
+		<param number="1" desc="" type="SCREEN"></param>
+		<param number="2" desc="" type=""></param>
+		<param number="3" desc="" type=""></param>
+		<param number="4" desc="" type=""></param>
+		<param number="5" desc="" type=""></param>
+		<param number="6" desc="" type=""></param>
+		<param number="7" desc="" type=""></param>
+		<param number="8" desc="" type=""></param>
+	</state>
+	<state name="E" description="Four FDK selection function state" paramcount="8">
+		<param number="1" desc="Screen that display different transaction." type="SCREEN">Screen to show</param>
+		<param number="2" desc="Timeout state" type="STATE">timeout state</param>
+		<param number="3" desc="Cancel next state" type="STATE">cancel state</param>
+		<param number="4" desc="FDK A or I is selected" type="STATE">A/I selected</param>
+		<param number="5" desc="FDK B or H is selected" type="STATE">B/H selected</param>
+		<param number="6" desc="FDK C or G is selected" type="STATE">C/G selected</param>
+		<param number="7" desc="FDK D or F is selected" type="STATE">D/F selected</param>
+		<param number="8" desc="Byte in which the selected opcode is stored in buffer" type="NUMBER">
+			<value desc="1st byte">000</value>
+			<value desc="2nd byte">001</value>
+			<value desc="3rd byte">002</value>
+			<value desc="4th byte">003</value>
+			<value desc="5th byte">004</value>
+			<value desc="6th byte">005</value>
+			<value desc="7th byte">006</value>
+			<value desc="8th byte">007</value>
+		</param>
+	</state>
+	<state name="F" description="Amount Entry state" paramcount="">
+		<param number="1" desc="Screen that prompts user for amount entry." type="SCREEN">Enter amount screen</param>
+		<param number="2" desc="Timeout state" type="STATE">timeout state</param>
+		<param number="3" desc="Cancel next state" type="STATE">cancel state</param>
+		<param number="4" desc="FDK A or I is selected" type="STATE">A/I selected</param>
+		<param number="5" desc="FDK B or H is selected" type="STATE">B/H selected</param>
+		<param number="6" desc="FDK C or G is selected" type="STATE">C/G selected</param>
+		<param number="7" desc="FDK D or F is selected" type="STATE">D/F selected</param>
+		<param number="8" desc="Amount display screen" type="SCREEN"></param>
+	</state>
+	<state name="G" description="Amount Check state" paramcount="">
+		<param number="1" desc="Amount check condition true state" type="STATE"></param>
+		<param number="2" desc="Amount check condition false state" type="STATE"></param>
+		<param number="3" desc="Buffer to be checked" type="NUMBER">Buffer to be checked
+			<value desc="Amount buffer is checked">000</value>
+			<value desc="B buffer is checked">001</value>
+			<value desc="C buffer is checked">002</value>
+		</param>
+		<param number="4" desc="Integer multiple value" type="NUMBER">Min. denom value</param>
+		<param number="5" desc="Number of decimal places" type="NUMBER">No. of</param>
+		<param number="6" desc="Currency type" type="NUMBER">ccy type</param>
+		<param number="7" desc="Amount check condition" type="NUMBER">
+			<value desc="">000</value>
+			<value desc="">001</value>
+			<value desc="">002</value>
+			<value desc="">003</value>
+		</param>
+		<param number="8" desc="Reserved" type="NUMBER">000</param>
+	</state>
+	<state name="H" description="Information entry state" paramcount="">
+		<param number="1" desc="Screen that prompts user to enter data" type="SCREEN">Enter data screen</param>
+		<param number="2" desc="Timeout state number" type="STATE">timeout state</param>
+		<param number="3" desc="Cancel state number" type="STATE">cancel state</param>
+		<param number="4" desc="FDK A or I is selected" type="STATE">A/I selected</param>
+		<param number="5" desc="FDK B or H is selected" type="STATE">B/H selected</param>
+		<param number="6" desc="FDK C or G is selected" type="STATE">C/G selected</param>
+		<param number="7" desc="FDK D or F is selected" type="STATE">D/F selected</param>
+		<param number="8" desc="Buffer and display parameters" type="NUMBER">
+			<value desc="Display X and store in C buffer">000</value>
+			<value desc="Display data and store in C buffer">001</value>
+			<value desc="Display X and store in B buffer">002</value>
+			<value desc="Display data and store in B buffer">003</value>
+		</param>
+	</state>
+	<state name="I" description="Transaction Request state" paramcount="">
+		<param number="1" desc="Please wait screen" type="SCREEN">Please wait screen</param>
+		<param number="2" desc="Central timeout state" type="STATE">no reply from terminal</param>
+		<param number="3" desc="Send track 2" type="NUMBER">
+			<value desc="No">000</value>
+			<value desc="Yes">001</value>
+		</param>
+		<param number="4" desc="Send track 1 or 3 data" type="NUMBER">
+			<value desc="">000</value>
+			<value desc="">001</value>
+			<value desc="">002</value>
+			<value desc="">003</value>
+			<value desc="">004</value>
+			<value desc="">005</value>
+			<value desc="">006</value>
+			<value desc="">007</value>
+		</param>
+		<param number="5" desc="Send opcode data" type="NUMBER">
+			<value desc="No">000</value>
+			<value desc="Yes">001</value>
+		</param>
+		<param number="6" desc="Send amount data" type="NUMBER">
+			<value desc="No">000</value>
+			<value desc="Yes">001</value>
+		</param>
+		<param number="7" desc="Send PIN buffer.Buffer A" type="NUMBER">
+			<value desc="No">000</value>
+			<value desc="Yes">001</value>
+		</param>
+		<param number="8" desc="" type="NUMBER">
+			<value desc="Send no buffer">000</value>
+			<value desc="Send Buffer B">001</value>
+			<value desc="Send Buffer C">002</value>
+			<value desc="Send Buffer B and C">003</value>
+		</param>
+	</state>
+	<state name="J" description="Close state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="K" description="FIT switch state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="_" description="Expanded FIT switch state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="L" description="Card write state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="M" description="Enhanced PIN entry state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="R" description="Enhanced amount entry state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="S" description="Language code switch state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="T" description="Card read - PIN entry invitation state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="V" description="Language select from card state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="W" description="FDK Switch state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="X" description="FDK information entry state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="Y" description="Eight FDK selection function state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="b" description="Customer-Selectable PIN state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="k" description="Smart FIT Check state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="m" description="PIN and language select state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name=">" description="Cash accept state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="w" description="Cheque accept state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="&" description="Barcode read state" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+	<state name="" description="" paramcount="">
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+		<param number="" desc="" type=""></param>
+	</state>
+</device>
